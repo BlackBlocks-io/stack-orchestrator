@@ -1,0 +1,9 @@
+version: "1.0"
+name: celestia-node
+description: "Stack for running celestia-node"
+repos:
+  - github.com/celestiaorg/celestia-node
+containers:
+  - cerc/celestia-node
+pods:
+  - celestia-node

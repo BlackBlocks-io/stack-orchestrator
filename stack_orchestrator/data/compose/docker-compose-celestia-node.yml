@@ -1,0 +1,29 @@
+services:
+  celestia-node:
+    image: cerc/celestia-node:local
+    environment:
+      RPC_URL: ${RPC_URL:-rpc.celestia.pops.one}
+      NODE_TYPE: ${NODE_TYPE:-light}
+      P2P_NETWORK: ${P2P_NETWORK:-celestia}
+    entrypoint: ["/bin/bash", "/opt/entrypoint.sh"]
+    command: 
+      - "celestia"
+      - "$NODE_TYPE"
+      - "start"
+      - "--core.ip"
+      - "$RPC_URL"
+      - "--p2p.network"
+      - "$P2P_NETWORK"
+    ports:
+      - "2121"
+      - "26658"
+    volumes:
+      -  node-data:/home/celestia
+    healthcheck:
+      test: ["CMD", "nc", "-vz", "localhost", "2121"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 3s
+volumes:
+  node-data:
